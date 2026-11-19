@@ -1,0 +1,1021 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080309">
+
+<title>بحبك يا أم ميان ❤️</title>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #080309;
+  color: white;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.screen {
+  display: none;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at center, #501027 0%, #210914 48%, #080309 100%);
+}
+
+.screen.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: screenIn .8s ease;
+}
+
+@keyframes screenIn {
+  from {opacity: 0; transform: scale(.97)}
+  to {opacity: 1; transform: scale(1)}
+}
+
+#three-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+#three-background canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 600px;
+  padding: 35px 20px;
+  text-align: center;
+}
+
+.main-heart {
+  font-size: 100px;
+  display: inline-block;
+  filter: drop-shadow(0 0 25px #ff174f);
+  animation: heartbeat 1.2s infinite;
+}
+
+@keyframes heartbeat {
+  0%,100% {transform: scale(1)}
+  50% {transform: scale(1.18)}
+}
+
+.title {
+  color: #ffb4cb;
+  font-size: clamp(36px, 9vw, 60px);
+  margin: 20px 0;
+  text-shadow: 0 0 20px #ff174f;
+  animation: titleGlow 2s infinite alternate;
+}
+
+@keyframes titleGlow {
+  from {text-shadow: 0 0 10px #ff174f}
+  to {text-shadow: 0 0 35px #ff174f, 0 0 60px #e91e63}
+}
+
+.subtitle {
+  color: #f5cad8;
+  font-size: 16px;
+  line-height: 2.1;
+}
+
+.btn {
+  margin-top: 25px;
+  padding: 15px 32px;
+  border: 1px solid #ff82a6;
+  border-radius: 40px;
+  color: white;
+  font-size: 17px;
+  background: linear-gradient(135deg, #ed245d, #850e3c);
+  box-shadow: 0 0 25px #ff174f66;
+  transition: .3s;
+}
+
+.btn:active {
+  transform: scale(.92);
+}
+
+.small {
+  margin-top: 25px;
+  color: #dca0b5;
+  font-size: 13px;
+}
+
+/* الواجهة الثانية */
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 17px;
+  margin-top: 30px;
+}
+
+.love-card {
+  width: 100%;
+  padding: 23px 18px;
+  border-radius: 23px;
+  border: 1px solid #d64c78;
+  color: white;
+  background: linear-gradient(145deg, #64152f, #210817);
+  box-shadow: 0 0 25px #ff174f25;
+  transition: .3s;
+}
+
+.love-card:active {
+  transform: scale(.95);
+}
+
+.love-card.opened {
+  border-color: #ffb4cb;
+  background: linear-gradient(145deg, #812046, #351020);
+}
+
+.card-icon {
+  display: block;
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.love-card h3 {
+  color: #ffc0d3;
+  margin-bottom: 10px;
+  font-size: 19px;
+}
+
+.love-card p {
+  color: #eec1d1;
+  line-height: 1.8;
+  font-size: 14px;
+}
+
+/* نافذة الرسائل */
+
+.message-box {
+  display: none;
+  position: fixed;
+  z-index: 15;
+  inset: 0;
+  background: #080208ed;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.message-box.show {
+  display: flex;
+}
+
+.message-inner {
+  width: 100%;
+  max-width: 400px;
+  padding: 30px 22px;
+  text-align: center;
+  border-radius: 25px;
+  border: 1px solid #e45a84;
+  background: linear-gradient(145deg, #59132e, #1d0815);
+  box-shadow: 0 0 50px #ff174f55;
+  animation: pop .5s;
+}
+
+@keyframes pop {
+  from {transform: scale(.5); opacity: 0}
+  to {transform: scale(1); opacity: 1}
+}
+
+.message-inner h2 {
+  color: #ffb1ca;
+  margin: 15px 0;
+}
+
+.message-inner p {
+  color: #ffe0e9;
+  line-height: 2.2;
+  font-size: 16px;
+}
+
+/* الواجهة الثالثة */
+
+.heart-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 17px;
+  margin-top: 30px;
+}
+
+.memory-heart {
+  min-height: 130px;
+  border: 1px solid #e64b78;
+  border-radius: 24px;
+  background: linear-gradient(145deg, #68132f, #210817);
+  box-shadow: 0 0 25px #ff174f33;
+  color: white;
+  font-size: 53px;
+  animation: heartbeat 1.5s infinite;
+  transition: .3s;
+}
+
+.memory-heart span {
+  display: block;
+  font-size: 13px;
+  color: #ffd3df;
+  margin-top: 7px;
+}
+
+.memory-heart.opened {
+  opacity: .45;
+  animation: none;
+}
+
+.memory-heart:active {
+  transform: scale(.85);
+}
+
+/* انفجار القلوب */
+
+#explosion {
+  display: none;
+  position: fixed;
+  z-index: 30;
+  inset: 0;
+  background: radial-gradient(circle, #64102e, #160610 65%, #050207);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+  overflow: hidden;
+}
+
+#explosion.show {
+  display: flex;
+}
+
+.burst-heart {
+  font-size: 100px;
+  position: absolute;
+  filter: drop-shadow(0 0 30px #ff174f);
+  animation: explodeHeart 1.2s forwards;
+}
+
+@keyframes explodeHeart {
+  0% {
+    transform: scale(.2) rotate(0deg);
+    opacity: 0;
+  }
+  35% {
+    transform: scale(1.5);
+    opacity: 1;
+  }
+  65% {
+    transform: scale(2.3);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(5);
+    opacity: 0;
+  }
+}
+
+.particle {
+  position: absolute;
+  font-size: 22px;
+  pointer-events: none;
+  animation: particleFly 1.5s ease-out forwards;
+}
+
+@keyframes particleFly {
+  from {
+    transform: translate(0,0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(var(--x),var(--y)) scale(.2);
+    opacity: 0;
+  }
+}
+
+/* عرض الصورة */
+
+.photo-result {
+  display: none;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  position: relative;
+  z-index: 3;
+}
+
+.photo-result.show {
+  display: block;
+  animation: photoIn .9s ease;
+}
+
+@keyframes photoIn {
+  from {
+    opacity: 0;
+    transform: translateY(35px) scale(.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.photo-result img {
+  width: 100%;
+  height: min(48vh, 390px);
+  object-fit: contain;
+  border: 2px solid #ff719c;
+  border-radius: 22px;
+  box-shadow: 0 0 40px #ff174f77;
+  background: #160610;
+}
+
+.photo-result h2 {
+  color: #ffb3ca;
+  margin: 18px 0;
+  font-size: 23px;
+}
+
+.photo-result p {
+  color: #ffe0e9;
+  line-height: 2;
+  font-size: 15px;
+}
+
+@media(max-width:350px) {
+  .content {padding: 25px 14px}
+  .memory-heart {min-height: 110px}
+}
+</style>
+</head>
+
+<body>
+
+<div id="three-background"></div>
+
+<!-- الواجهة الأولى -->
+
+<section class="screen active" id="screen1">
+
+  <div class="content">
+
+    <div class="main-heart">❤️</div>
+
+    <h1 class="title">
+      بحبك يا أم ميان
+    </h1>
+
+    <p class="subtitle">
+      إنتِ أجمل حكاية كتبها قلبي.
+      <br>
+      عملت ليكِ عالم صغير،
+      <br>
+      لكن جواه حب كبير ما بتوصفه الكلمات.
+    </p>
+
+    <button class="btn" onclick="goScreen(2)">
+      ادخلي عالم حبي ❤️
+    </button>
+
+    <p class="small">
+      Made with love, just for you
+    </p>
+
+  </div>
+
+</section>
+
+<!-- الواجهة الثانية -->
+
+<section class="screen" id="screen2">
+
+  <div class="content">
+
+    <div class="main-heart">💗</div>
+
+    <h1 style="font-size:32px;color:#ffb4cb;margin:15px">
+      رسائل من قلبي
+    </h1>
+
+    <p class="subtitle">
+      عندي ليكِ ثلاث بطاقات.
+      <br>
+      افتحي كل بطاقة واكتشفي الكلام الجواها.
+    </p>
+
+    <div class="cards">
+
+      <button class="love-card" onclick="openCard(0)">
+        <span class="card-icon">❤️</span>
+        <h3>البطاقة الأولى</h3>
+        <p>إنتِ أجمل أقداري</p>
+      </button>
+
+      <button class="love-card" onclick="openCard(1)">
+        <span class="card-icon">💗</span>
+        <h3>البطاقة الثانية</h3>
+        <p>إنتِ فرحة قلبي</p>
+      </button>
+
+      <button class="love-card" onclick="openCard(2)">
+        <span class="card-icon">💖</span>
+        <h3>البطاقة الثالثة</h3>
+        <p>عايز أكمل عمري معاكِ</p>
+      </button>
+
+    </div>
+
+    <p class="small" id="cardProgress">
+      فتحتي 0 من 3 بطاقات
+    </p>
+
+  </div>
+
+</section>
+
+<!-- نافذة رسائل البطاقات -->
+
+<div class="message-box" id="messageBox">
+
+  <div class="message-inner">
+
+    <div style="font-size:50px">❤️</div>
+
+    <h2 id="messageTitle"></h2>
+
+    <p id="messageText"></p>
+
+    <button class="btn" onclick="closeCard()">
+      رجوع للبطاقات
+    </button>
+
+  </div>
+
+</div>
+
+<!-- الواجهة الثالثة -->
+
+<section class="screen" id="screen3">
+
+  <div class="content">
+
+    <div class="main-heart">💘</div>
+
+    <h1 style="font-size:30px;color:#ffb4cb;margin:15px">
+      اختاري قلباً من قلبي
+    </h1>
+
+    <p class="subtitle">
+      كل قلب جواه صورة وذكرى من حكايتنا.
+      <br>
+      اضغطي على أي قلب واكتشفي المفاجأة.
+    </p>
+
+    <div class="heart-grid" id="heartGrid"></div>
+
+    <p class="small" id="memoryProgress">
+      ذكرياتنا: 0 من 10
+    </p>
+
+    <p class="small">
+      كل قلب يحمل ذكرى مختلفة ❤️
+    </p>
+
+  </div>
+
+</section>
+
+<!-- شاشة الانفجار والصور -->
+
+<div id="explosion">
+
+  <div class="burst-heart" id="burstHeart">
+    ❤️
+  </div>
+
+  <div class="photo-result" id="photoResult">
+
+    <img id="memoryPhoto" src="" alt="ذكرياتنا">
+
+    <h2 id="memoryTitle"></h2>
+
+    <p id="memoryMessage"></p>
+
+    <button class="btn" onclick="backToHearts()">
+      ارجعي اختاري قلب تاني ❤️
+    </button>
+
+  </div>
+
+</div>
+
+<script>
+
+// رسائل البطاقات الثلاث
+
+const cards = [
+
+ {
+  title:"إنتِ أجمل أقداري ❤️",
+  text:
+  "من يوم دخلتي حياتي بقيت أشوف الدنيا بصورة أجمل. وجودك في حياتي نعمة كبيرة، وكل يوم بحمد ربنا إنك جزء من حكايتي. إنتِ ما مجرد إنسانة بحبها، إنتِ فرحة قلبي."
+ },
+
+ {
+  title:"إنتِ فرحة قلبي 💗",
+  text:
+  "ضحكتك بتفرحني، وصوتك بيريحني، ووجودك بيديني إحساس جميل. يمكن ما بقدر أوصف كل الحاصل جواي، لكن متأكد إنك غالية عندي أكتر مما تتخيلي."
+ },
+
+ {
+  title:"عايز أكمل عمري معاكِ 💍",
+  text:
+  "ما داير تكوني مجرد ذكرى جميلة في حياتي، داير تكوني كل الحكاية. نكبر سوا، نحقق أحلامنا، ونعيش الأيام الحلوة والمرة مع بعض. إنتِ اختياري اليوم وبكرة وكل العمر."
+ }
+
+];
+
+let openedCards = new Set();
+let selectedCard = -1;
+
+
+// الانتقال بين الواجهات
+
+function goScreen(number) {
+
+ document.querySelectorAll(".screen").forEach(screen => {
+  screen.classList.remove("active");
+ });
+
+ document.getElementById("screen"+number).classList.add("active");
+
+ window.scrollTo(0,0);
+
+ if(number === 3) {
+  createHearts();
+ }
+
+}
+
+
+// فتح البطاقات
+
+function openCard(index) {
+
+ selectedCard = index;
+
+ document.getElementById("messageTitle").textContent =
+ cards[index].title;
+
+ document.getElementById("messageText").textContent =
+ cards[index].text;
+
+ document.getElementById("messageBox").classList.add("show");
+
+}
+
+function closeCard() {
+
+ openedCards.add(selectedCard);
+
+ document.getElementById("messageBox").classList.remove("show");
+
+ document.querySelectorAll(".love-card").forEach((card,index) => {
+  if(openedCards.has(index)) {
+   card.classList.add("opened");
+  }
+ });
+
+ document.getElementById("cardProgress").textContent =
+ `فتحتي ${openedCards.size} من 3 بطاقات`;
+
+ if(openedCards.size === 3) {
+
+  setTimeout(() => {
+   goScreen(3);
+  },700);
+
+ }
+
+}
+
+
+// الصور العشرة
+// تم تعديل مسارات الصور فقط
+
+const memories = [
+
+ {
+  image:"./Am Mian/1.jpg",
+  title:"أول ذكرى ❤️",
+  message:"كل صورة معاكِ عندها حكاية، وإنتِ أجمل حكاياتي."
+ },
+
+ {
+  image:"./Am Mian/2.jpg",
+  title:"قلبي إنتِ 💗",
+  message:"إنتِ أقرب إنسانة لقلبي، ووجودك بيفرق معاي كتير."
+ },
+
+ {
+  image:"./Am Mian/3.jpg",
+  title:"أحلى ضحكة 💕",
+  message:"ضحكتك عندي بالدنيا كلها، وبتخليني أنسى تعب اليوم."
+ },
+
+ {
+  image:"./Am Mian/4.jpg",
+  title:"حكايتنا 💖",
+  message:"نفسي حكايتنا تفضل مستمرة وما تنتهي، وتكون أجمل حكاية في العمر."
+ },
+
+ {
+  image:"./Am Mian/5.jpg",
+  title:"أجمل صدفة ❤️",
+  message:"من بين كل الناس قلبي اختارك إنتِ، ودا أجمل اختيار."
+ },
+
+ {
+  image:"./Am Mian/6.jpg",
+  title:"معاكِ للأبد 💝",
+  message:"داير أكون معاكِ في كل تفاصيل الحياة، في الفرح والتعب."
+ },
+
+ {
+  image:"./Am Mian/7.jpg",
+  title:"حلم العمر 💓",
+  message:"أحلى حلم عندي إننا نحقق أحلامنا سوا ونبني مستقبلنا."
+ },
+
+ {
+  image:"./Am Mian/8.jpg",
+  title:"إنتِ عالمي 💘",
+  message:"وجودك في حياتي بيدي لكل حاجة معنى أجمل."
+ },
+
+ {
+  image:"./Am Mian/Snapchat-9.jpg",
+  title:"ذكرى ما بتتنسي 💞",
+  message:"في حاجات كتيرة ممكن أنساها، لكن ذكرياتي معاكِ ما بتتنسي."
+ },
+
+ {
+  image:"./Am Mian/Snapchat-10.jpg",
+  title:"آخر قلب وأول حب ❤️",
+  message:"ولو سألتيني بحبك قدر شنو، حأقول ليك أكتر من كل الكلام. إنتِ اختياري كل يوم."
+ }
+
+];
+
+let openedMemories = new Set();
+let currentMemory = -1;
+
+
+// بناء القلوب العشرة
+
+function createHearts() {
+
+ const grid = document.getElementById("heartGrid");
+
+ grid.innerHTML = "";
+
+ memories.forEach((memory,index) => {
+
+  const button = document.createElement("button");
+
+  button.className = "memory-heart";
+
+  if(openedMemories.has(index)) {
+   button.classList.add("opened");
+  }
+
+  button.innerHTML =
+   `❤️<span>القلب ${index+1}</span>`;
+
+  button.onclick = () => openMemory(index);
+
+  grid.appendChild(button);
+
+ });
+
+ document.getElementById("memoryProgress").textContent =
+ `ذكرياتنا: ${openedMemories.size} من 10`;
+
+}
+
+
+// تأثير انفجار القلب
+
+function openMemory(index) {
+
+ currentMemory = index;
+
+ const explosion = document.getElementById("explosion");
+
+ const burst = document.getElementById("burstHeart");
+
+ const result = document.getElementById("photoResult");
+
+ explosion.classList.add("show");
+
+ burst.style.display = "block";
+
+ result.classList.remove("show");
+
+ burst.style.animation = "none";
+
+ void burst.offsetWidth;
+
+ burst.style.animation = "explodeHeart 1.2s forwards";
+
+
+ // إنشاء 65 جزيئة متطايرة
+
+ for(let i=0;i<65;i++) {
+
+  const p = document.createElement("span");
+
+  p.className = "particle";
+
+  p.textContent = Math.random() > .35 ? "❤️" : "✨";
+
+  p.style.left = "50%";
+  p.style.top = "50%";
+
+  const angle = Math.random()*Math.PI*2;
+
+  const distance = 100 + Math.random()*270;
+
+  p.style.setProperty(
+   "--x",
+   Math.cos(angle)*distance+"px"
+  );
+
+  p.style.setProperty(
+   "--y",
+   Math.sin(angle)*distance+"px"
+  );
+
+  explosion.appendChild(p);
+
+  setTimeout(() => p.remove(),1600);
+
+ }
+
+
+ // ظهور الصورة بعد الانفجار
+
+ setTimeout(() => {
+
+  burst.style.display = "none";
+
+  const memory = memories[index];
+
+  document.getElementById("memoryPhoto").src =
+   memory.image;
+
+  document.getElementById("memoryTitle").textContent =
+   memory.title;
+
+  document.getElementById("memoryMessage").textContent =
+   memory.message;
+
+  result.classList.add("show");
+
+  openedMemories.add(index);
+
+  createHearts();
+
+ },1350);
+
+}
+
+
+// الرجوع لاختيار قلب آخر
+
+function backToHearts() {
+
+ document.getElementById("explosion").classList.remove("show");
+
+ document.getElementById("photoResult").classList.remove("show");
+
+ createHearts();
+
+}
+
+
+// تشغيل القلوب عند البداية
+
+createHearts();
+
+</script>
+
+
+<!-- THREE.JS 3D HEARTS -->
+
+<script type="module">
+
+import * as THREE from "three";
+
+const container =
+ document.getElementById("three-background");
+
+const scene = new THREE.Scene();
+
+const camera = new THREE.PerspectiveCamera(
+ 55,
+ window.innerWidth/window.innerHeight,
+ .1,
+ 100
+);
+
+camera.position.z = 20;
+
+const renderer = new THREE.WebGLRenderer({
+ alpha:true,
+ antialias:true
+});
+
+renderer.setPixelRatio(
+ Math.min(window.devicePixelRatio,1.5)
+);
+
+renderer.setSize(
+ window.innerWidth,
+ window.innerHeight
+);
+
+container.appendChild(renderer.domElement);
+
+
+// شكل قلب ثلاثي الأبعاد
+
+const heartShape = new THREE.Shape();
+
+heartShape.moveTo(0,0);
+
+heartShape.bezierCurveTo(
+ -1.2,1.2,
+ -2.1,2.8,
+ 0,3.3
+);
+
+heartShape.bezierCurveTo(
+ 2.1,2.8,
+ 1.2,1.2,
+ 0,0
+);
+
+heartShape.closePath();
+
+const heartGeometry = new THREE.ExtrudeGeometry(
+ heartShape,
+ {
+  depth:.55,
+  bevelEnabled:true,
+  bevelSegments:3,
+  steps:1,
+  bevelSize:.18,
+  bevelThickness:.18
+ }
+);
+
+heartGeometry.center();
+
+const heartMaterial = new THREE.MeshStandardMaterial({
+ color:0xe9134e,
+ emissive:0x74001f,
+ emissiveIntensity:.8,
+ metalness:.25,
+ roughness:.3
+});
+
+const hearts = [];
+
+for(let i=0;i<24;i++) {
+
+ const heart = new THREE.Mesh(
+  heartGeometry,
+  heartMaterial
+ );
+
+ heart.position.set(
+  (Math.random()-.5)*24,
+  (Math.random()-.5)*24,
+  (Math.random()-.5)*12
+ );
+
+ const scale = .15+Math.random()*.28;
+
+ heart.scale.set(scale,scale,scale);
+
+ heart.rotation.z = Math.random()*Math.PI;
+
+ heart.userData.speed = .002+Math.random()*.006;
+
+ heart.userData.offset = Math.random()*10;
+
+ scene.add(heart);
+
+ hearts.push(heart);
+
+}
+
+
+// الإضاءة
+
+scene.add(new THREE.AmbientLight(0xffffff,1.5));
+
+const light1 = new THREE.PointLight(0xff174f,90);
+
+light1.position.set(0,5,10);
+
+scene.add(light1);
+
+const light2 = new THREE.PointLight(0xff6699,60);
+
+light2.position.set(-8,-5,5);
+
+scene.add(light2);
+
+
+// الحركة
+
+const clock = new THREE.Clock();
+
+function animate() {
+
+ requestAnimationFrame(animate);
+
+ const time = clock.getElapsedTime();
+
+ hearts.forEach((heart,i) => {
+
+  heart.rotation.y += heart.userData.speed;
+
+  heart.rotation.x =
+   Math.sin(time*.6+heart.userData.offset)*.3;
+
+  heart.position.y +=
+   Math.sin(time+i)*.003;
+
+ });
+
+ renderer.render(scene,camera);
+
+}
+
+animate();
+
+
+// تغيير الحجم
+
+window.addEventListener("resize",() => {
+
+ camera.aspect =
+  window.innerWidth/window.innerHeight;
+
+ camera.updateProjectionMatrix();
+
+ renderer.setSize(
+  window.innerWidth,
+  window.innerHeight
+ );
+
+});
+
+</script>
+
+</body>
+</html>
